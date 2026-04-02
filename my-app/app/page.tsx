@@ -13,8 +13,8 @@ export default function Home(){
           <Image src="/hiiiiiiii拷貝.png" alt="main" width={80} height={80}/>
         </div>
 
-        <div className="text-center">名字</div>
-        <div>簡介</div>
+        <div className="text-center">楊渝媗</div>
+        <div>一個熱愛文字、遊戲和音樂的普通人～</div>
 
         <div className="flex gap-2">
           {/*icons, links*/}
