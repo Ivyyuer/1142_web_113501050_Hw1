@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Hobby(){
   return(
     <>
-      Hobby 我的興趣
+      Design Project 設計專案
     </>
   );
 }
