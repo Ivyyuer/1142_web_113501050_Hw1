@@ -5,6 +5,7 @@ import { LuHouse, LuMail, LuContact } from "react-icons/lu";
 import { FaInstagram } from "react-icons/fa";
 import { SlSocialLinkedin } from "react-icons/sl";
 
+
 export default function Menu() {
   
   return (
@@ -31,6 +32,8 @@ export default function Menu() {
         <Link href="/about">
           <div className="bg-[#FFF6C0] p-[16px] mt-2 rounded-md text-amber-950 font-serif">關於我</div>
         </Link>
+
+        
 
         <Link href="/design.project">
           <div className="bg-[#FFF6C0] p-[16px] mt-2 rounded-md text-amber-950 font-serif">設計專案</div>

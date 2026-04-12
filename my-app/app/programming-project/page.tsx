@@ -7,6 +7,7 @@ import Menu from "../component/Menu";
 import Link from "next/link";
 
 import { useRef } from "react";
+import { LuHouse} from "react-icons/lu";
 
 
 
@@ -48,16 +49,18 @@ export default function ProgrammingProject(){
   return(
     <>
       <div className="flex h-full">
-          <Link href="/" className="sm:hidden relative bg-[#F7C85C]">
-            返回
-          </Link>
           
           <div className="sm:block hidden">
             <Menu />
           </div>
             <div className="bg-[#7FB77E] h-full w-full rounded-2xl p-4 leading-10">
-              <div className="text-amber-50 text-2xl font-bold font-serif justify-center items-center">Programming Project 程式專案</div>
-              <div className="text-amber-50 text-[15px] justify-center items-center font-serif">這裡是我的程式專案足跡~</div>
+              <Link href="/" className="sm:hidden text-amber-100">
+            
+                <LuHouse />
+          
+              </Link>
+              <div className="text-gray-800 text-2xl font-bold font-serif justify-center items-center">Programming Project 程式專案</div>
+              <div className="text-gray-800 text-[15px] justify-center items-center font-serif">這裡是我的程式專案足跡~</div>
                 <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-2  gap-2">
 
                   <div className=" bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2
@@ -147,6 +150,8 @@ export default function ProgrammingProject(){
                     </div>
 
                   </div>
+
+                  
                   
 
                 

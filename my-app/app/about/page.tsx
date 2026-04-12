@@ -2,22 +2,25 @@
 import Image from "next/image";
 import Menu from "../component/Menu"
 import Link from "next/link";
+import { LuHouse} from "react-icons/lu";
 
 
 export default function About(){
   return (
     <>
       <div className="flex h-full">
-        <Link href="/" className="sm:hidden relative bg-[#2F6B3F]">
-            返回
-        </Link>
         
         <div className="sm:block hidden">
           <Menu />
         </div>
         <div className="bg-amber-950 w-full">
-          <div className="w-full ">
-            <div className="text-[#F4EBDD] font-serif font-extrabold sm:text-[35px] text-[20px] p-5">
+          <div className="w-full p-4">
+            <Link href="/" className="sm:hidden text-amber-100">
+          
+              <LuHouse />
+        
+            </Link>
+            <div className="text-[#F4EBDD] font-serif font-extrabold sm:text-[35px] text-[25px] p-5">
               關於我的一些小事 About me
             </div>
             
@@ -31,16 +34,16 @@ export default function About(){
                   alt="楊渝媗的照片"
                   width={380}
                   height={500}
-                  /* 這裡讓圖片在手機版稍微縮小(250px)以防過大，電腦版回復 380px */
+                  
                   className="object-cover rounded w-[250px] sm:w-[380px] h-auto"
                 />
               </div>
             </div>
               
               {/* 文字內容 */}
-              <div className="leading-relaxed text-[#F4EBDD] sm:text-[15px] text-[10px]">
+              <div className="leading-relaxed text-[#F4EBDD] text-[15px]">
                   {/* 中文簡介 */}
-                  <p className="font-serif ">
+                  <p className="font-serif">
                     嗨你好~我是楊渝媗,目前就讀政治大學英文系大二,雙主修數位內容,輔心理系。個性主動負責、喜歡嘗試新事物,特別對遊戲與軟體開發領域充滿熱情,並持續跨域學習相關技能與AI工具應用。
                     <br /><br />
                     過去曾擔任高中英語旅行社社長,負責社團營運、活動規劃與對外溝通,也和團隊一起經營社群內容,提升活動曝光與參與度,培養了帶領團隊與解決問題的能力。進入大學後,我參與英文之夜劇場製作,兼任行政與演員,在短時間內協調分工、調整劇本與安排排練,累積專案執行與應變經驗。同時也在數位行銷實驗室擔任FB行銷組組長,從零開始自學行銷知識並實際操作專案,逐步建立內容與企劃能力。
@@ -48,6 +51,7 @@ export default function About(){
                     在興趣方面,我熱愛遊戲,並在課程中使用 Unreal Engine 與團隊完成第一款3D小遊戲。從無到有打造角色與互動機制的過程,讓我深刻感受到把想法變成作品的成就感,也萌生了未來想投入遊戲相關產業的想法。我期待自己能接下來的課程及活動中接觸實務經驗、快速學習並為團隊創造價值,同時持續精進跨領域整合與問題解決能力。
                     英文專業不僅是我的技能之一，更是前進未知領域的基地，讓我在數位內容的軟體和心理學課程中學習地更加順遂。我相信，每一次的學習與挑戰，都是一場新的冒險，而我將持續向前，探索更多可能性，拓展自己的視野。
                   </p>
+                  <div className="mt-5"></div>
 
                   {/* 英文簡介 */}
                   <p className="font-serif">
