@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { useRef } from "react";
 import { LuHouse} from "react-icons/lu";
+import TextType from '../component/TextType';
 
 
 
@@ -59,8 +60,21 @@ export default function ProgrammingProject(){
                 <LuHouse />
           
               </Link>
-              <div className="text-gray-800 text-2xl font-bold font-serif justify-center items-center">Programming Project 程式專案</div>
-              <div className="text-gray-800 text-[15px] justify-center items-center font-serif">這裡是我的程式專案足跡~</div>
+              <div className="text-gray-800 text-2xl font-bold font-serif justify-center items-center p-2">Programming Project 程式專案</div>
+              <div className="text-gray-800 text-[15px] justify-center items-center font-serif leading-normal p-2">
+                
+                <TextType 
+                  as="div"
+                  typingSpeed={75}
+                  pauseDuration={1500}
+                  showCursor
+                  cursorCharacter="_"
+                  text={["這裡記錄了我的程式專案足跡~","在寫程式的過程中痛苦並快樂著","但每次debug完成總是有種說不出的喜悅!","每個完成的專案就像是自己的小孩出生一樣","不管是不是足夠好都為它感到驕傲!"]}
+                  deletingSpeed={50}
+                  variableSpeed={{ min: 60, max: 120 }}
+                  cursorBlinkDuration={0.5}
+                />
+              </div>
                 <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-2  gap-2">
 
                   <div className=" bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2

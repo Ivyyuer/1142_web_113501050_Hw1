@@ -5,6 +5,7 @@ import Image from "next/image";
 import Menu from "../component/Menu";
 import Link from "next/link";
 import { LuHouse} from "react-icons/lu";
+import TextType from '../component/TextType';
 
 import { useRef } from "react";
 
@@ -61,7 +62,20 @@ export default function designProject(){
           
               </Link>
               <div className="text-gray-800 text-2xl font-bold font-serif justify-center items-center">Design Project 設計專案</div>
-              <div className="text-gray-80 text-[15px] justify-center items-center font-serif">這裡收錄了我的平面設計作品~</div>
+              <div className="text-gray-80 text-[15px] justify-center items-center font-serif">
+                
+                <TextType 
+                  as="div"
+                  typingSpeed={75}
+                  pauseDuration={1500}
+                  showCursor
+                  cursorCharacter="_"
+                  text={["這裡收錄了我的平面設計作品~","我很享受在一次次的設計中找到自己的風格與新的靈感","希望你也會看的開心!"]}
+                  deletingSpeed={50}
+                  variableSpeed={{ min: 60, max: 120 }}
+                  cursorBlinkDuration={0.5}
+                />
+              </div>
                 <div className="bg-[#F7C85C] rounded-2xl grid sm:grid-cols-3 grid-cols-1  gap-5 p-5">
 
                   
