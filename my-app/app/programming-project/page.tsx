@@ -40,7 +40,8 @@ export default function ProgrammingProject() {
       <div className="relative bg-[#ffc47c]/80 min-h-screen w-full rounded-2xl p-4 leading-10 overflow-hidden">
         
         
-      <div className="absolute inset-0 z-0 pointer-events-none sm:pointer-events-auto">
+      <div className="absolute inset-0 z-0 pointer-events-none sm:pointer-events-auto"
+           style={{ touchAction: 'pan-y'}}>
         <div className="w-full h-full relative">
           <Ballpit
             count={100}
