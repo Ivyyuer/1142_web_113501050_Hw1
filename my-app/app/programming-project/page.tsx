@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { LuHouse } from "react-icons/lu";
 import TextType from '../../components/TextType';
 import ProgramCard from "../../components/ProgramCard";
+import Ballpit from "@/components/Ballpit";
 
 export default function ProgrammingProject() {
   const programList = [
@@ -35,7 +36,24 @@ export default function ProgrammingProject() {
           <Menu />
         </div>
         
-        <div className="bg-[#7FB77E] min-h-screen w-full rounded-2xl p-4 leading-10">
+        
+      <div className="relative bg-[#ffc47c]/80 min-h-screen w-full rounded-2xl p-4 leading-10 overflow-hidden">
+        
+        
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="w-full h-full relative">
+          <Ballpit
+            count={100}
+            gravity={0.5}
+            friction={0.9975}
+            wallBounce={0.95}
+            followCursor
+            colors={["#5227FF","#7cff67","#ff6b6b"]}
+          />
+        </div>
+      </div>
+
+        <div className="relative z-10">
           <Link href="/" className="sm:hidden text-amber-100">
             <LuHouse />
           </Link>
@@ -45,29 +63,47 @@ export default function ProgrammingProject() {
           </div>
           
           <div className="text-gray-800 text-[15px] font-serif leading-normal p-2">
-            <TextType 
-              as="div"
-              typingSpeed={75}
-              pauseDuration={1500}
-              showCursor
-              cursorCharacter="_"
-              text={[
-                "這裡記錄了我的程式專案足跡~",
-                "在寫程式的過程中痛苦並快樂著",
-                "但每次debug完成總是有種說不出的喜悅!",
-                "每個完成的專案就像是自己的小孩出生一樣",
-                "不管是不是足夠好都為它感到驕傲!"
-              ]}
-              deletingSpeed={50}
-              variableSpeed={{ min: 60, max: 120 }}
-              cursorBlinkDuration={0.5}
+          <TextType
+
+            as="div"
+
+            typingSpeed={75}
+
+            pauseDuration={1500}
+
+            showCursor
+
+            cursorCharacter="_"
+
+            text={[
+
+              "這裡記錄了我的程式專案足跡~",
+
+              "在寫程式的過程中痛苦並快樂著",
+
+              "但每次debug完成總是有種說不出的喜悅!",
+
+              "每個完成的專案就像是自己的小孩出生一樣",
+
+              "不管是不是足夠好都為它感到驕傲!"
+
+            ]}
+
+            deletingSpeed={50}
+
+            variableSpeed={{ min: 60, max: 120 }}
+
+            cursorBlinkDuration={0.5}
+
             />
           </div>
 
-          <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-1 gap-4 p-2">
+          {/* 專案卡片網格 */}
+          <div className="grid sm:grid-cols-3 grid-cols-1 gap-4 p-2">
             {/* 左側固定的圖檔 */}
             <div className="bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2 bg-[url('/pic1.gif')] bg-cover bg-center shadow-lg" />
 
+            {/* 跑迴圈生成卡片 */}
             {programList.map((item) => (
               <ProgramCard 
                 key={item.id}
@@ -80,6 +116,7 @@ export default function ProgrammingProject() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </>
   );
