@@ -47,7 +47,7 @@ export default function ProgrammingProject() {
             gravity={0.5}
             friction={0.9975}
             wallBounce={0.95}
-            followCursor
+            followCursor={typeof window !== 'undefined' && window.innerWidth > 640}
             colors={["#5227FF","#7cff67","#ff6b6b"]}
           />
         </div>
