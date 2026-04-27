@@ -2,13 +2,13 @@
 
 
 import Image from "next/image";
-import Menu from "../component/Menu";
+import Menu from "../../components/Menu";
 import Link from "next/link";
 import { LuHouse} from "react-icons/lu";
-import TextType from '../component/TextType';
+import TextType from '../../components/TextType';
 import { useState } from "react";
 import { useRef } from "react";
-import ProjectCard from "../component/ProjectCard";
+import ProjectCard from "../../components/ProjectCard";
 
 
 

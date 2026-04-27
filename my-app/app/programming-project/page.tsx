@@ -1,12 +1,12 @@
 "use client"
 
 import Image from "next/image";
-import Menu from "../component/Menu";
+import Menu from "../../components/Menu";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { LuHouse } from "react-icons/lu";
-import TextType from '../component/TextType';
-import ProgramCard from "../component/ProgramCard";
+import TextType from '../../components/TextType';
+import ProgramCard from "../../components/ProgramCard";
 
 export default function ProgrammingProject() {
   const programList = [
@@ -35,7 +35,7 @@ export default function ProgrammingProject() {
           <Menu />
         </div>
         
-        <div className="bg-[#7FB77E] h-full w-full rounded-2xl p-4 leading-10">
+        <div className="bg-[#7FB77E] min-h-screen w-full rounded-2xl p-4 leading-10">
           <Link href="/" className="sm:hidden text-amber-100">
             <LuHouse />
           </Link>

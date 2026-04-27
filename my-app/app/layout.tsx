@@ -1,9 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import FullBackground from "../components/FullBackground";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,20 +27,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-screen antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="h-screen flex flex-col ">
-        <div className="flex flex-1 ">
-          <div>
-            
+      <body className="relative min-h-screen">
+        
+        {/* --- 1. 全域漸層背景層 --- */}
+        <FullBackground />
 
-          </div>
-          
-          
-          <div className="bg-white-200 w-full h-full">
-            {children}
-          </div>
-        </div>
+        {/* --- 2. 頁面內容層 --- */}
+        <main className="relative z-10 w-full h-full">
+          {children}
+        </main>
+
       </body>
     </html>
   );

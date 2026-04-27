@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import Menu from "../component/Menu"
+import Menu from "../../components/Menu"
 import Link from "next/link";
 import { LuHouse} from "react-icons/lu";
 import { useEffect, useState } from "react";
@@ -39,7 +39,7 @@ export default function About(){
         <div className="sm:block hidden">
           <Menu />
         </div>
-        <div className="bg-amber-950 w-full">
+        <div className="bg-amber-950 w-full rounded-2xl">
           <div className="w-full p-4">
             <Link href="/" className="sm:hidden text-amber-100">
           

@@ -3,8 +3,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Menu from "./component/Menu"
-import TextType from './component/TextType';
+import Menu from "../components/Menu"
+import TextType from '../components/TextType';
 import { useState } from "react";
 
 
@@ -15,7 +15,7 @@ export default function Home(){
 
       
       
-      <div className="flex justify-center h-[800px] bg-amber-100">
+      <div className="flex justify-center h-[800px] bg-transparent">
         <div className="flex justify-center h-[800px] sm:hidden">
           <Menu />
         </div>

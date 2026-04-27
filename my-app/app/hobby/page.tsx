@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import Menu from "../component/Menu"
+import Menu from "../../components/Menu"
 import Link from "next/link";
 
 
