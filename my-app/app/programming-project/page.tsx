@@ -1,183 +1,86 @@
-
 "use client"
-
 
 import Image from "next/image";
 import Menu from "../component/Menu";
 import Link from "next/link";
-
-import { useRef } from "react";
-import { LuHouse} from "react-icons/lu";
+import { useRef, useState } from "react";
+import { LuHouse } from "react-icons/lu";
 import TextType from '../component/TextType';
+import ProgramCard from "../component/ProgramCard";
 
-
-
-export default function ProgrammingProject(){
-  let projectdata ={
-    "css":{
-      "projectname":""
+export default function ProgrammingProject() {
+  const programList = [
+    {
+      id: 1,
+      name: "Thorns and Roses 玫瑰與荊棘",
+      description: "Unreal Engine 4 遊戲專案",
+      imageurl: "/gamehome.png",
+      role: "劇情UI(對話框、信件等)的Blueprint、時程規劃",
+      demoUrl: "https://youtu.be/EOJe62KrPtg"
     },
+    {
+      id: 2,
+      name: "今天去哪chill?",
+      description: "Python 專案",
+      imageurl: "/pythonimage.jpg",
+      role: "與組員合作撰寫程式 (加入 AI 協作)",
+      demoUrl: "https://youtu.be/jcS78AaQ6v4"
+    }
+  ];
 
-    "0":{
-      "resf":"我在專案中的角色:"
-    },
-
-    "1":{
-      "name":"Thorns and Roses 玫瑰與荊棘",
-      "description":"unreal engine 4 遊戲專案",
-      "imageurl":"/gamehome.png",
-    },
-
-    "2":{
-      "name":"今天去哪chill?",
-      "description":"python 專案",
-      "imageurl":"/pythonimage.jpg",
-    },
-
-
-
-
-  };
-
-
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-
-
-
-
-
-  return(
+  return (
     <>
-      <div className="flex h-full">
+      <div className="flex h-full min-h-screen">
+        <div className="sm:block hidden">
+          <Menu />
+        </div>
+        
+        <div className="bg-[#7FB77E] h-full w-full rounded-2xl p-4 leading-10">
+          <Link href="/" className="sm:hidden text-amber-100">
+            <LuHouse />
+          </Link>
           
-          <div className="sm:block hidden">
-            <Menu />
+          <div className="text-gray-800 text-2xl font-bold font-serif p-2">
+            Programming Project 程式專案
           </div>
-            <div className="bg-[#7FB77E] h-full w-full rounded-2xl p-4 leading-10">
-              <Link href="/" className="sm:hidden text-amber-100">
-            
-                <LuHouse />
           
-              </Link>
-              <div className="text-gray-800 text-2xl font-bold font-serif justify-center items-center p-2">Programming Project 程式專案</div>
-              <div className="text-gray-800 text-[15px] justify-center items-center font-serif leading-normal p-2">
-                
-                <TextType 
-                  as="div"
-                  typingSpeed={75}
-                  pauseDuration={1500}
-                  showCursor
-                  cursorCharacter="_"
-                  text={["這裡記錄了我的程式專案足跡~","在寫程式的過程中痛苦並快樂著","但每次debug完成總是有種說不出的喜悅!","每個完成的專案就像是自己的小孩出生一樣","不管是不是足夠好都為它感到驕傲!"]}
-                  deletingSpeed={50}
-                  variableSpeed={{ min: 60, max: 120 }}
-                  cursorBlinkDuration={0.5}
-                />
-              </div>
-                <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-2  gap-2">
+          <div className="text-gray-800 text-[15px] font-serif leading-normal p-2">
+            <TextType 
+              as="div"
+              typingSpeed={75}
+              pauseDuration={1500}
+              showCursor
+              cursorCharacter="_"
+              text={[
+                "這裡記錄了我的程式專案足跡~",
+                "在寫程式的過程中痛苦並快樂著",
+                "但每次debug完成總是有種說不出的喜悅!",
+                "每個完成的專案就像是自己的小孩出生一樣",
+                "不管是不是足夠好都為它感到驕傲!"
+              ]}
+              deletingSpeed={50}
+              variableSpeed={{ min: 60, max: 120 }}
+              cursorBlinkDuration={0.5}
+            />
+          </div>
 
-                  <div className=" bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2
-                                    bg-[url('/pic1.gif')] bg-cover bg-center">
-                    
-                  </div>
+          <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-1 gap-4 p-2">
+            {/* 左側固定的圖檔 */}
+            <div className="bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2 bg-[url('/pic1.gif')] bg-cover bg-center shadow-lg" />
 
-
-                  <div className="relative group bg-amber-50 rounded-2xl h-64 md:h-50 flex flex-col justify-center items-center col-span-2 
-                    overflow-hidden cursor-pointer
-                    transition-all duration-500 ease-in-out 
-                    hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:z-10">
-  
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                      style={{backgroundImage: `url(${projectdata["1"]["imageurl"]})` || ""}}
-                    />
-
-                    <div className="relative z-10 w-full transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-10">
-                      <div className="text-black sm:text-2xl text-xl font-bold font-serif bg-amber-50/60 w-full p-4 flex justify-center items-center whitespace-pre-line text-center">
-                        {projectdata["1"]["name"]}
-                      </div>
-                      <div className="text-black sm:text-xl text-xl font-serif bg-amber-50/60 w-full p-2 flex justify-center items-center whitespace-pre-line text-center">
-                        {projectdata["1"]["description"]}
-                      </div>
-                    </div>
-
-                    <div className="absolute inset-0 z-20 flex flex-col justify-center items-center p-6 
-                                    bg-black/60 opacity-0 group-hover:opacity-100 
-                                    transition-all duration-500 translate-y-10 group-hover:translate-y-0">
-                      <div className="text-white sm:text-2xl text-xl font-bold font-serif mb-2">
-                        {projectdata["0"]["resf"]}
-                      </div>
-                      <div className="text-white/90 sm:text-lg text-sm font-serif text-center">
-                        劇情UI(對話框、信件等)的blueprint、時程規劃
-                        
-                      </div>
-                      
-                      <button 
-                        onClick={() => window.open('https://youtu.be/EOJe62KrPtg', '_blank')}
-                        className="mt-6 px-6 py-2 bg-white text-black rounded-full font-bold hover:bg-amber-200 transition-colors"
-                      >
-                        去看看demo
-                      </button>
-                      
-                    </div>
-
-                  </div>
-
-                  <div className="relative group bg-amber-50 rounded-2xl h-64 md:h-50 flex flex-col justify-center items-center col-span-2 
-                    overflow-hidden cursor-pointer
-                    transition-all duration-500 ease-in-out 
-                    hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:z-10">
-  
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                      style={{backgroundImage: `url(${projectdata["2"]["imageurl"]})` || ""}}
-                    />
-
-                    <div className="relative z-10 w-full transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-10">
-                      <div className="text-black sm:text-2xl text-xl font-bold font-serif bg-amber-50/60 w-full p-4 flex justify-center items-center whitespace-pre-line text-center">
-                        {projectdata["2"]["name"]}
-                      </div>
-                      <div className="text-black sm:text-xl text-xl font-serif bg-amber-50/60 w-full p-2 flex justify-center items-center whitespace-pre-line text-center">
-                        {projectdata["2"]["description"]}
-                      </div>
-                    </div>
-
-                    <div className="absolute inset-0 z-20 flex flex-col justify-center items-center p-6 
-                                    bg-black/60 opacity-0 group-hover:opacity-100 
-                                    transition-all duration-500 translate-y-10 group-hover:translate-y-0">
-                      <div className="text-white sm:text-2xl text-xl font-bold font-serif mb-2">
-                        {projectdata["0"]["resf"]}
-                      </div>
-                      <div className="text-white/90 sm:text-lg text-sm font-serif text-center">
-                        與組員合作撰寫程式(加入AI協作)
-                        
-                      </div>
-                      
-                      <button 
-                        onClick={() => window.open('https://youtu.be/jcS78AaQ6v4', '_blank')}
-                        className="mt-6 px-6 py-2 bg-white text-black rounded-full font-bold hover:bg-amber-200 transition-colors"
-                      >
-                        去看看demo
-                      </button>
-                      
-                    </div>
-
-                  </div>
-
-                  
-                  
-
-                
-
-                
-                  
-                </div>
-                </div> 
-
+            {programList.map((item) => (
+              <ProgramCard 
+                key={item.id}
+                name={item.name}
+                description={item.description}
+                imageurl={item.imageurl}
+                role={item.role}
+                demoUrl={item.demoUrl}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-    
-    
     </>
   );
 }
