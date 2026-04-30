@@ -792,14 +792,18 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
   const intersectionPoint = new Vector3();
   let isPaused = false;
 
-  canvas.style.touchAction = 'none';
+  const followCursorEnabled = config.followCursor !== false;
+
+  canvas.style.touchAction = followCursorEnabled ? 'none' : 'auto';
   canvas.style.userSelect = 'none';
   (canvas.style as any).webkitUserSelect = 'none';
 
-  const pointerData = createPointerData({
+  
+  const pointerData = followCursorEnabled
+  ? createPointerData({
     domElement: canvas,
     onMove() {
-      raycaster.setFromCamera(pointerData.nPosition, threeInstance.camera);
+      raycaster.setFromCamera(pointerData!.nPosition, threeInstance.camera);
       threeInstance.camera.getWorldDirection(plane.normal);
       raycaster.ray.intersectPlane(plane, intersectionPoint);
       spheres.physics.center.copy(intersectionPoint);
@@ -808,7 +812,10 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
     onLeave() {
       spheres.config.controlSphere0 = false;
     }
-  });
+  })
+  : null;
+
+
   function initialize(cfg: any) {
     if (spheres) {
       threeInstance.clear();
@@ -836,7 +843,7 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
       isPaused = !isPaused;
     },
     dispose() {
-      pointerData.dispose?.();
+      pointerData?.dispose?.();
       threeInstance.dispose();
     }
   };
