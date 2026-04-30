@@ -9,7 +9,6 @@ import TextType from '../../components/TextType';
 import { useState } from "react";
 import { useRef } from "react";
 import ProjectCard from "../../components/ProjectCard";
-import Particles from "@/components/Particles";
 
 
 
@@ -80,27 +79,8 @@ export default function DesignProject() {
           <Menu />
         </div>
         
-        <div className="relative bg-[#72e8e2]/80 min-h-screen w-full rounded-2xl p-4 leading-10 overflow-hidden">
-        
-        
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <Particles
-            particleCount={200}
-            particleSpread={10}
-            speed={0.1}
-            particleColors={["#ffffff"]}
-            moveParticlesOnHover
-            particleHoverFactor={1}
-            alphaParticles={false}
-            particleBaseSize={100}
-            sizeRandomness={1}
-            cameraDistance={20}
-            disableRotation={false}
-          />
-        </div>
-
-        <div className="relative z-10">
-          <Link href="/" className="sm:hidden text-amber-100">
+        <div className="bg-[#F7C85C] h-full w-full rounded-2xl p-4 leading-10">
+          <Link href="/" className="sm:hidden text-gray-800">
             <LuHouse />
           </Link>
           
@@ -141,7 +121,6 @@ export default function DesignProject() {
             <div className="bg-amber-50 rounded-2xl w-80 max-w-full aspect-square bg-[url('/pic2.gif')] bg-cover bg-center shadow-lg transition-transform hover:scale-105 duration-300" />
             <div className="bg-amber-50 rounded-2xl w-80 max-w-full aspect-square bg-[url('/pic3.jpg')] bg-cover bg-center shadow-lg transition-transform hover:scale-105 duration-300" />
           </div>
-        </div>
         </div>
       </div>
     </>

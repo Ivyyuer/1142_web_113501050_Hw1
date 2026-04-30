@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 import { Observer } from 'gsap/Observer';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   ACESFilmicToneMapping,
   AmbientLight,
@@ -774,48 +774,33 @@ interface CreateBallpitReturn {
   dispose: () => void;
 }
 
-function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallpitReturn | null {
-  let three: X;
-
-  try {
-    three = new X({
-      canvas,
-      size: 'parent',
-      rendererOptions: { antialias: true, alpha: true }
-    });
-  } catch (err) {
-    console.warn('Ballpit: renderer init failed, skip rendering.', err);
-    return null;
-  }
-
-
-  
-
+function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallpitReturn {
+  const threeInstance = new X({
+    canvas,
+    size: 'parent',
+    rendererOptions: { antialias: true, alpha: true }
+  });
   let spheres: Z;
-  three.renderer.toneMapping = ACESFilmicToneMapping;
-  three.camera.position.set(0, 0, 20);
-  three.camera.lookAt(0, 0, 0);
-  three.cameraMaxAspect = 1.5;
-  three.resize();
+  threeInstance.renderer.toneMapping = ACESFilmicToneMapping;
+  threeInstance.camera.position.set(0, 0, 20);
+  threeInstance.camera.lookAt(0, 0, 0);
+  threeInstance.cameraMaxAspect = 1.5;
+  threeInstance.resize();
   initialize(config);
   const raycaster = new Raycaster();
   const plane = new Plane(new Vector3(0, 0, 1), 0);
   const intersectionPoint = new Vector3();
   let isPaused = false;
 
-  const followCursorEnabled = config.followCursor !== false;
-
-  canvas.style.touchAction = followCursorEnabled ? 'none' : 'auto';
+  canvas.style.touchAction = 'none';
   canvas.style.userSelect = 'none';
   (canvas.style as any).webkitUserSelect = 'none';
 
-  
-  const pointerData = followCursorEnabled
-  ? createPointerData({
+  const pointerData = createPointerData({
     domElement: canvas,
     onMove() {
-      raycaster.setFromCamera(pointerData!.nPosition, three.camera);
-      three.camera.getWorldDirection(plane.normal);
+      raycaster.setFromCamera(pointerData.nPosition, threeInstance.camera);
+      threeInstance.camera.getWorldDirection(plane.normal);
       raycaster.ray.intersectPlane(plane, intersectionPoint);
       spheres.physics.center.copy(intersectionPoint);
       spheres.config.controlSphere0 = true;
@@ -823,27 +808,24 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
     onLeave() {
       spheres.config.controlSphere0 = false;
     }
-  })
-  : null;
-
-
+  });
   function initialize(cfg: any) {
     if (spheres) {
-      three.clear();
-      three.scene.remove(spheres);
+      threeInstance.clear();
+      threeInstance.scene.remove(spheres);
     }
-    spheres = new Z(three.renderer, cfg);
-    three.scene.add(spheres);
+    spheres = new Z(threeInstance.renderer, cfg);
+    threeInstance.scene.add(spheres);
   }
-  three.onBeforeRender = deltaInfo => {
+  threeInstance.onBeforeRender = deltaInfo => {
     if (!isPaused) spheres.update(deltaInfo);
   };
-  three.onAfterResize = size => {
+  threeInstance.onAfterResize = size => {
     spheres.config.maxX = size.wWidth / 2;
     spheres.config.maxY = size.wHeight / 2;
   };
   return {
-    three,
+    three: threeInstance,
     get spheres() {
       return spheres;
     },
@@ -854,8 +836,8 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
       isPaused = !isPaused;
     },
     dispose() {
-      pointerData?.dispose?.();
-      three.dispose();
+      pointerData.dispose?.();
+      threeInstance.dispose();
     }
   };
 }
@@ -869,38 +851,23 @@ interface BallpitProps {
 const Ballpit: React.FC<BallpitProps> = ({ className = '', followCursor = true, ...props }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const spheresInstanceRef = useRef<CreateBallpitReturn | null>(null);
-  const [fallback, setFallback] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || typeof window === "undefined") return;
 
-    const instance = createBallpit(canvas, {
-      followCursor,
-      ...props
-    });
-
-    spheresInstanceRef.current = instance;
-    setFallback(!instance); // create 失敗就進 fallback
+    spheresInstanceRef.current = createBallpit(canvas, { ...props });
 
     return () => {
-      spheresInstanceRef.current?.dispose();
+      if (spheresInstanceRef.current) {
+        spheresInstanceRef.current.dispose();
+        spheresInstanceRef.current = null;
+      }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); 
 
-  return fallback ? (
-    <div
-      className={`${className} w-full h-full`}
-      style={{
-        background:
-          'radial-gradient(circle at 20% 20%, rgba(82,39,255,.18), transparent 40%), radial-gradient(circle at 80% 30%, rgba(124,255,103,.18), transparent 42%), radial-gradient(circle at 50% 80%, rgba(255,107,107,.18), transparent 45%)'
-      }}
-    />
-  ) : (
-    <canvas className={`${className} w-full h-full`} ref={canvasRef} />
-  );
+  
+  return <canvas className={`${className} w-full h-full`} ref={canvasRef} />;
 };
-
 
 export default Ballpit;
