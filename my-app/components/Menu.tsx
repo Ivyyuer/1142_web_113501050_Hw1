@@ -66,7 +66,7 @@ export default function Menu() {
               <SlSocialLinkedin className="shrink-0"/>Ivy Yang
             </a>
 
-            <a href="https://vocus.cc/user/@Ivy_live" target="_blank" rel="noopener noreferrer" className="text-[12px] px-2 opacity-80 hover:text-blue-100">
+            <a href="https://vocus.cc/user/@Ivy_live" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-2 hover:text-blue-100">
               方格子(寫作專欄): Ivy.聆空
             </a>
           </div>
