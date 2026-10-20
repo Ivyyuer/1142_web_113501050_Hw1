@@ -66,7 +66,7 @@ export default function ProgrammingProject() {
 
           <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-1 gap-4 p-2">
             {/* 左側固定的圖檔 */}
-            <div className="bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2 bg-[url('/pic1.gif')] bg-cover bg-center shadow-lg" />
+            <div className="bg-amber-50 rounded-2xl h-75 sm:h-full w-full flex justify-center items-center row-span-2 bg-[url('/pic1.gif')] bg-cover bg-center shadow-lg" />
 
             {programList.map((item) => (
               <ProgramCard 
