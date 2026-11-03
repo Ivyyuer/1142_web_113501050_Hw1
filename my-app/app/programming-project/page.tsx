@@ -33,7 +33,7 @@ export default function ProgrammingProject() {
       description: "Unity 遊戲專案",
       imageurl: "/unity-game/RainingDay/RainingDay.png",
       role: "以上課程式素材加上網路免費素材做互動式作品",
-      demoUrl: "/games/unity/RainingDay_Freelook"
+      demoUrl: "/games/unity/RainingDay_FreeLook"
     }
 
   ];
