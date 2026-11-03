@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Menu from "../../components/Menu";
+import Ballpit from "../../components/Ballpit";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { LuHouse } from "react-icons/lu";
@@ -25,7 +26,16 @@ export default function ProgrammingProject() {
       imageurl: "/pythonimage.jpg",
       role: "與組員合作撰寫程式 (加入 AI 協作)",
       demoUrl: "https://youtu.be/jcS78AaQ6v4"
+    },
+    {
+      id: 3,
+      name: "Raining Day",
+      description: "Unity 遊戲專案",
+      imageurl: "/unity-game/RainingDay/RainingDay.png",
+      role: "以上課程式素材加上網路免費素材做互動式作品",
+      demoUrl: "/games/unity/RainingDay_Freelook"
     }
+
   ];
 
   return (
@@ -66,7 +76,7 @@ export default function ProgrammingProject() {
 
           <div className="bg-[#7FB77E] rounded-2xl grid sm:grid-cols-3 grid-cols-1 gap-4 p-2">
             {/* 左側固定的圖檔 */}
-            <div className="bg-amber-50 rounded-2xl h-[300px] sm:h-full w-full flex justify-center items-center row-span-2 bg-[url('/pic1.gif')] bg-cover bg-center shadow-lg" />
+            <div className="bg-amber-50 rounded-2xl h-75 sm:h-full w-full flex justify-center items-center row-span-2 bg-[url('/pic1.gif')] bg-cover bg-center shadow-lg" />
 
             {programList.map((item) => (
               <ProgramCard 
@@ -79,6 +89,16 @@ export default function ProgrammingProject() {
               />
             ))}
           </div>
+
+          <div className="relative w-full h-80 overflow-hidden pointer-events-none">
+            <Ballpit
+              className="absolute inset-0"
+              followCursor={false}
+              count={80}
+              colors={[0x7fb77e, 0xffe08a, 0xf4ebd0, 0x4ade80, 0x60a5fa]}
+            />
+          </div>
+          
         </div>
       </div>
     </>

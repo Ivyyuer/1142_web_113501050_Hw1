@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player</title>
+  </head>
+  <body style="text-align: center; padding: 0; background: #231F20;">
+    <canvas id="unity-canvas" width=960 height=600 style="width: 960px; height: 600px; background: #231F20;"></canvas>
+    <script>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/Unity.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/Unity.data.br",
+        frameworkUrl: buildUrl + "/Unity.framework.js.br",
+        codeUrl: buildUrl + "/Unity.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Game",
+        productVersion: "1.0",
+      };
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(document.querySelector("#unity-canvas"), config, (progress) => {});
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

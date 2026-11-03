@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player</title>
+  </head>
+  <body style="text-align: center; padding: 0; background: #231F20;">
+    <canvas id="unity-canvas" style="width: 100%; height: 100%; background: #231F20;"></canvas>
+    <script>
+      // 因為所有檔案都跟 index.html 在同一個資料夾，所以 buildUrl 直接指向當前資料夾
+      var buildUrl = "/unity-game/RainingDay";
+      
+      var loaderUrl = buildUrl + "/Unity.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/Unity.data.br",
+        frameworkUrl: buildUrl + "/Unity.framework.js.br",
+        codeUrl: buildUrl + "/Unity.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Game",
+        productVersion: "1.0",
+      };
+    
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(document.querySelector("#unity-canvas"), config, (progress) => {
+          // 載入進度條
+        });
+      };
+      document.body.appendChild(script);
+    </script>
+  </body>
+</html>

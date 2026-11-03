@@ -114,10 +114,17 @@ class X {
     this.canvas!.style.display = 'block';
     const rendererOptions: WebGLRendererParameters = {
       canvas: this.canvas,
-      powerPreference: 'high-performance',
+      antialias: true,
+      alpha: true,
+      powerPreference: 'default',
       ...(this.#config.rendererOptions ?? {})
     };
-    this.renderer = new WebGLRenderer(rendererOptions);
+    try {
+      this.renderer = new WebGLRenderer(rendererOptions);
+    } catch (err) {
+      console.warn('Ballpit: WebGL init failed', err);
+      throw err;
+    }
     this.renderer.outputColorSpace = SRGBColorSpace;
   }
 
@@ -276,8 +283,11 @@ class X {
     this.#stopAnimation();
     this.clear();
     this.#postprocessing?.dispose();
-    this.renderer.dispose();
-    this.renderer.forceContextLoss();
+    try {
+      this.renderer.dispose();
+    } catch {
+      // renderer 可能已失效
+    }
     this.isDisposed = true;
   }
 
@@ -452,7 +462,7 @@ class Y extends MeshPhysicalMaterial {
           vec3 scatteringHalf = normalize(directLight.direction + (geometryNormal * thicknessDistortion));
           float scatteringDot = pow(saturate(dot(geometryViewDir, -scatteringHalf)), thicknessPower) * thicknessScale;
           #ifdef USE_COLOR
-            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor;
+            vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * vColor.rgb;
           #else
             vec3 scatteringIllu = (scatteringDot + thicknessAmbient) * diffuse;
           #endif
@@ -478,15 +488,16 @@ class Y extends MeshPhysicalMaterial {
 
 const XConfig = {
   count: 200,
-  colors: [0, 0, 0],
+  colors: [0x7fb77e, 0xffe08a, 0xf4ebd0, 0x4ade80, 0x60a5fa],
   ambientColor: 0xffffff,
   ambientIntensity: 1,
   lightIntensity: 200,
   materialParams: {
-    metalness: 0.5,
-    roughness: 0.5,
-    clearcoat: 1,
-    clearcoatRoughness: 0.15
+    metalness: 0.2,
+    roughness: 0.35,
+    clearcoat: 0.6,
+    clearcoatRoughness: 0.2,
+    envMapIntensity: 1
   },
   minSize: 0.5,
   maxSize: 1,
@@ -702,6 +713,7 @@ class Z extends InstancedMesh {
   #setupLights() {
     this.ambientLight = new AmbientLight(this.config.ambientColor, this.config.ambientIntensity);
     this.add(this.ambientLight);
+    if (this.config.followCursor === false) return;
     this.light = new PointLight(this.config.colors[0], this.config.lightIntensity);
     this.add(this.light);
   }
@@ -739,8 +751,8 @@ class Z extends InstancedMesh {
       })(colors);
       for (let idx = 0; idx < this.count; idx++) {
         this.setColorAt(idx, colorUtils.getColorAt(idx / this.count));
-        if (idx === 0) {
-          this.light!.color.copy(colorUtils.getColorAt(idx / this.count));
+        if (idx === 0 && this.light) {
+          this.light.color.copy(colorUtils.getColorAt(idx / this.count));
         }
       }
 
@@ -760,7 +772,7 @@ class Z extends InstancedMesh {
       }
       U.updateMatrix();
       this.setMatrixAt(idx, U.matrix);
-      if (idx === 0) this.light!.position.copy(U.position);
+      if (idx === 0 && this.light) this.light.position.copy(U.position);
     }
     this.instanceMatrix.needsUpdate = true;
   }
@@ -774,12 +786,19 @@ interface CreateBallpitReturn {
   dispose: () => void;
 }
 
-function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallpitReturn {
-  const threeInstance = new X({
-    canvas,
-    size: 'parent',
-    rendererOptions: { antialias: true, alpha: true }
-  });
+function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallpitReturn | null {
+  let threeInstance: X;
+  try {
+    threeInstance = new X({
+      canvas,
+      size: 'parent',
+      rendererOptions: { antialias: true, alpha: true }
+    });
+  } catch (err) {
+    console.warn('Ballpit: renderer init failed, skip rendering.', err);
+    return null;
+  }
+
   let spheres: Z;
   threeInstance.renderer.toneMapping = ACESFilmicToneMapping;
   threeInstance.camera.position.set(0, 0, 20);
@@ -792,29 +811,39 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
   const intersectionPoint = new Vector3();
   let isPaused = false;
 
-  canvas.style.touchAction = 'none';
+  const followCursorEnabled = config.followCursor !== false;
+  canvas.style.touchAction = followCursorEnabled ? 'none' : 'auto';
   canvas.style.userSelect = 'none';
   (canvas.style as any).webkitUserSelect = 'none';
 
-  const pointerData = createPointerData({
-    domElement: canvas,
-    onMove() {
-      raycaster.setFromCamera(pointerData.nPosition, threeInstance.camera);
-      threeInstance.camera.getWorldDirection(plane.normal);
-      raycaster.ray.intersectPlane(plane, intersectionPoint);
-      spheres.physics.center.copy(intersectionPoint);
-      spheres.config.controlSphere0 = true;
-    },
-    onLeave() {
-      spheres.config.controlSphere0 = false;
-    }
-  });
+  const pointerData = followCursorEnabled
+    ? createPointerData({
+        domElement: canvas,
+        onMove() {
+          raycaster.setFromCamera(pointerData!.nPosition, threeInstance.camera);
+          threeInstance.camera.getWorldDirection(plane.normal);
+          raycaster.ray.intersectPlane(plane, intersectionPoint);
+          spheres.physics.center.copy(intersectionPoint);
+          spheres.config.controlSphere0 = true;
+        },
+        onLeave() {
+          spheres.config.controlSphere0 = false;
+        }
+      })
+    : null;
+
   function initialize(cfg: any) {
     if (spheres) {
       threeInstance.clear();
       threeInstance.scene.remove(spheres);
     }
     spheres = new Z(threeInstance.renderer, cfg);
+    const material = (
+      Array.isArray(spheres.material) ? spheres.material[0] : spheres.material
+    ) as MeshPhysicalMaterial;
+    if (material.envMap) {
+      threeInstance.scene.environment = material.envMap;
+    }
     threeInstance.scene.add(spheres);
   }
   threeInstance.onBeforeRender = deltaInfo => {
@@ -836,7 +865,7 @@ function createBallpit(canvas: HTMLCanvasElement, config: any = {}): CreateBallp
       isPaused = !isPaused;
     },
     dispose() {
-      pointerData.dispose?.();
+      pointerData?.dispose?.();
       threeInstance.dispose();
     }
   };
@@ -849,25 +878,29 @@ interface BallpitProps {
 }
 
 const Ballpit: React.FC<BallpitProps> = ({ className = '', followCursor = true, ...props }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const spheresInstanceRef = useRef<CreateBallpitReturn | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || typeof window === "undefined") return;
+    const container = containerRef.current;
+    if (!container || typeof window === "undefined") return;
 
-    spheresInstanceRef.current = createBallpit(canvas, { ...props });
+    const canvas = document.createElement("canvas");
+    canvas.className = "w-full h-full block";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    container.appendChild(canvas);
+
+    spheresInstanceRef.current = createBallpit(canvas, { followCursor, ...props });
 
     return () => {
-      if (spheresInstanceRef.current) {
-        spheresInstanceRef.current.dispose();
-        spheresInstanceRef.current = null;
-      }
+      spheresInstanceRef.current?.dispose();
+      spheresInstanceRef.current = null;
+      canvas.remove();
     };
-  }, []); 
+  }, []);
 
-  
-  return <canvas className={`${className} w-full h-full`} ref={canvasRef} />;
+  return <div ref={containerRef} className={`${className} w-full h-full`} />;
 };
 
 export default Ballpit;

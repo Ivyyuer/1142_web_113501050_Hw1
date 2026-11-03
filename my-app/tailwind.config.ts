@@ -11,17 +11,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-noto-sans)', 'sans-serif'],
+        serif: ['var(--font-noto-serif)', 'serif'],
+      },
       colors: {
         // 你可以把你的主題色直接定義在這裡，方便以後使用
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
       animation: {
-        'spin-slow': 'spin 20s linear infinite', // 這是常見的慢速旋轉名稱
+        'spin-slow': 'spin 20s linear infinite',
       },
     },
   },
-  plugins: [require("tailwindcss-animate")], // shadcn 常用動畫插件
 };
 
 export default config;
