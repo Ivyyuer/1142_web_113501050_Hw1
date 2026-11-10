@@ -22,7 +22,7 @@ export default function RainingDayPage() {
       {/* Unity 遊戲嵌入框：給它固定的高度比例（例如 aspect-video 或 h-[60vh]），而不是 h-full */}
       <div className="w-full max-w-5xl h-[69vh] bg-black rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-50">
         <iframe 
-          src="/unity-game/RainingDay_FreeLook/index.html" 
+          src="/unity-game/RainingDay_Freelook/index.html" 
           className="w-full h-full border-0 block"
           title="Raining Day"
         />
